@@ -16,7 +16,6 @@
 
 3. Doctor side - patient request acceptance, Answer queries to patient
 
-4. covid 19 updates till date (in graph format)
 
 
 
