@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <!-- Basic -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- Mobile Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+        <!-- Site Metas -->
+        <title>Doctor Home Page</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- Site Icons -->
+        <link rel="shortcut icon" href="{{url_for('static',filename='image/fevicon.ico.png')}}" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="{{url_for('static',filename='image/apple-touch-icon.png')}}">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min1.css')}}">
+        <!-- Site CSS -->
+        <link rel="stylesheet" href="{{url_for('static',filename='style1.css')}}">
+        <!-- Colors CSS -->
+        <link rel="stylesheet" href="{{url_for('static',filename='css/colors1.css')}}">
+        <!-- ALL VERSION CSS -->
+        <link rel="stylesheet" href="{{url_for('static',filename='css/versions1.css')}}">
+        <!-- Responsive CSS -->
+        <link rel="stylesheet" href="{{url_for('static',filename='css/responsive1.css')}}">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{{url_for('static',filename='css/custom1.css')}}">
+        <!-- Modernizer for Portfolio -->
+        <script src="{{url_for('static',filename='js/modernizer1.js')}}"></script>
+        <!--Style for this page-->
+        <link rel="stylesheet" href="{{url_for('static',filename='css/DoctorStyle1.css')}}">
+
+
+<!-- [if lt IE 9] -->
+
+        <style>
+            a.disabled {
+            pointer-events: none;
+            cursor: default;
+            }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+table th, table td {
+  text-align: left;
+  padding: 12px;
+}
+
+table tr {
+  border-bottom: 1px solid #ddd;
+}
+
+table tr.header, table tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+
+
+        </style>
+    </head>
+<body>    
+       <header>
+
+         <div class="header-bottom wow fadeIn">
+            <div class="container">
+               <nav class="main-menu">
+                  <div class="navbar-header">
+                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                  </div>
+
+                  <div id="navbar" class="navbar-collapse collapse">
+                     <ul class="nav navbar-nav">
+                        <li><a class="active" >Home</a></li>
+                        <li> <a href="#patient request" class = "link" id="request">Request</a></li>
+                <li> <a href="#question-container" class = "link" id="question">Questions</a></li>
+                         <li> <a href="#accepted_request" class = "link" id="">Accepted Request</a></li>
+                         <li> <a href="#query" class = "link" id="">Accepted Request</a></li>
+                        <li><a data-scroll href="{{url_for('doctorLogout')}}">Logout</a></li>
+                     </ul>
+                  </div>
+               </nav>
+
+            </div>
+         </div>
+      </header>
+     <br><br><br><br>
+       <center><h2 id =patientrequest> Patient Request </h2></center>
+         <div id=request-container>
+             {% if check == len %}
+             <center><h2>No request pending </h2></center>
+             {% else %}
+       {% for i in range(0,len) %}
+
+
+         {% if reques[i]['status'] != 'Accepted' %}
+         <div class="card-items">
+             <div class="left-side">
+                 <img src="https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png" alt="user image">
+             </div>
+             <div class="right-side">
+                 <div id="text-hold">
+                    <h2>{{reques[i]['name']}}</h2>
+                    <h6>{{reques[i]['patient_mail']}}</h6>
+                 </div>
+
+                 <form class="form-inline" action="{{url_for('consult_update')}}" method="post" >
+                     <h5 style="color:white">
+                         Timing</h5>
+                      <input type="time" name="timing" placeholder="select time" required/><br>
+                          <h5 style="color:white">
+                         Date</h5>
+                      <input type="date" id="myDate" placeholder="Select date" name="bday" min="2021-05-28" max="2021-06-07" required/>
+
+                     <input type="text" name="patient_mail" value="{{reques[i]['patient_mail']}}" hidden/>
+<br><br>
+                 <div id="buttons">
+
+                     <button id ="accept" type="submit" class="btn btn-success">Accept</button>
+                 </div>
+
+                 </form>
+             </div>
+         </div>
+         {% endif %}
+
+         <br>
+         {% endfor %}
+             {% endif %}
+
+         </div>
+
+
+       <div id="accepted_request" class="section pr wow fadeIn" style="background-image:url('images/price-bg.png');">
+         <div class="container">
+            <div class="heading">
+               <span class="icon-logo"><img src="{{url_for('static',filename='image/icon-logo.png')}}" alt="#"></span>
+               <h2>Accepted requests  </h2>
+            </div>
+
+            <table>
+  <tr>
+    <th>Patient Name</th>
+    <th>E-mail</th>
+    <th>Status</th>
+     <th>Timing</th>
+     <th> Meeting Link</th>
+  </tr>
+
+               {% for i in range(0,len) %}
+                {% if reques[i]['status'] == 'Accepted' %}
+                <tr>
+    <td>{{reques[i]['name']}}</td>
+    <td>{{reques[i]['patient_mail']}}</td>
+    <td>{{reques[i]['status']}}</td>
+                    <td>{{reques[i]['timing']}}</td>
+                    <td><a>{{doctor['link']}}</a></td>
+
+  </tr>
+
+
+{% endif %}
+               {% endfor %}
+
+</table>
+
+         </div>
+      </div>
+
+<br><br><br>
+
+
+       <div id="query" class="section pr wow fadeIn" style="background-image:url('images/price-bg.png');">
+         <div class="container">
+            <div class="heading">
+               <span class="icon-logo"><img src="{{url_for('static',filename='image/icon-logo.png')}}" alt="#"></span>
+               <h2>Query </h2>
+            </div>
+
+             <table>
+  <tr>
+    <th>Query </th>
+    <th>Answer</th>
+    <th>Action</th>
+
+  </tr>
+
+               {% for i in range(0,len2) %}
+                 {% if queries[i]['status']!='answered' %}
+
+                <tr>
+    <td>{{queries[i]['question']}} </td>
+    <form action="{{url_for('answerquery')}}" method="post" ><td>
+        <input type="number" value="{{queries[i]['sno']}}" name="sno" hidden/>
+        <label for="fname"></label>
+  <input type="text" id="fname" name="answer" placeholder="Suggest your answer" ></td>
+                    <td><button type="submit">Answer them </button></td><form>
+
+
+  </tr>
+
+
+              {% endif %}
+               {% endfor %}
+
+</table>
+
+
+
+
+         </div>
+       </div>
+
+
+<br><br><br><br>
+       <div class="copyright-area wow fadeIn">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-8">
+                  <div class="footer-text">
+                     <p>© 2022 NHCE. All Rights Reserved.</p>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="social">
+                     <ul class="social-links">
+                        <li><a href=""><i class="fa fa-rss"></i></a></li>
+                        <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                        <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                        <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href=""><i class="fa fa-youtube"></i></a></li>
+                        <li><a href=""><i class="fa fa-pinterest"></i></a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+          <script src="{{url_for('static',filename='js/all1.js')}}"></script>
+      <!-- all plugins -->
+      <script src="{{url_for('static',filename='js/custom1.js')}}"></script>
+      <script>
+function myFunction() {
+swal("Profile Updated");
+}
+</script>
+
+      <!-- map -->
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNUPWkb4Cjd7Wxo-T4uoUldFjoiUA1fJc&callback=myMap"></script>
+</body>
+</html>

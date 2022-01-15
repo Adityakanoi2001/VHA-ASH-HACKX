@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+   <!-- Basic -->
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- Mobile Metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <!-- Site Metas -->
+   <title>Medico Virutual Assistant</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- Site Icons -->
+   <link rel="shortcut icon" href="{{url_for('static',filename='image/fevicon.ico.png')}}" type="image/x-icon" />
+   <link rel="apple-touch-icon" href="{{url_for('static',filename='image/apple-touch-icon.png')}}">
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min1.css')}}">
+   <!-- Site CSS -->
+   <link rel="stylesheet" href="{{url_for('static',filename='style1.css')}}">
+   <!-- Colors CSS -->
+   <link rel="stylesheet" href="{{url_for('static',filename='css/colors1.css')}}">
+   <!-- ALL VERSION CSS -->
+   <link rel="stylesheet" href="{{url_for('static',filename='css/versions1.css')}}">
+   <!-- Responsive CSS -->
+   <link rel="stylesheet" href="{{url_for('static',filename='css/responsive1.css')}}">
+   <!-- Custom CSS -->
+   <link rel="stylesheet" href="{{url_for('static',filename='css/custom1.css')}}">
+   <!-- Modernizer for Portfolio -->
+   <script src="{{url_for('static',filename='js/modernizer1.js')}}"></script>
+
+
+   <!-- [if lt IE 9] -->
+
+   <style>
+      .embeded-website{
+         width:100%;
+         height:800px;
+         margin:40px;
+         text-align: center;
+         color:#f51010;
+      }
+      .embeded-website iframe{
+         margin-left:40px;
+         margin-top:20px;
+      }
+      a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #f50b0b;
+  color: white;
+}
+#text-hold h2,h6{
+     color:white;
+     letter-spacing: 1px;
+     font-weight: bold;
+}
+
+/* after this  styles for  questions */
+#question-container{
+    width:100%;
+    height:1000px;
+    /* background-color: rgb(240, 224, 204); */
+    padding:100px 0px 10px 50px;
+  }
+.question-form{
+    width:700px;
+    height:150px;
+    background-color: white;
+    padding: 10px 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+}
+
+input{
+    border:none;
+    border-bottom: 1px solid #a80fa1;
+    margin-right:30px;
+    outline: none;
+    width:300px;
+    height:30px;
+    padding-left: 1em;
+}
+/* After to  this styles are applicable for chat section */
+.chat-container{
+    width:100%;
+    height:800px;
+    /* background-color: aqua; */
+    padding-top: 50px;
+}
+
+.chat-box-container{
+    width:600px;
+    height:600px;
+    background-color: rgb(255, 255, 255) ;
+    margin-left: auto;
+    margin-right:auto;
+    position: relative;
+    /* border:1px solid grey; */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding:20px;
+}
+.sendbox{
+    position: absolute;
+    bottom: 0;
+    /* background-color: hotpink; */
+    /* width: 100%; */
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+#send{
+    padding:10px 20px;
+    background-color: rgb(15, 219, 141);
+    color:white;
+    font-size: 20px;
+    border: none;
+    outline:none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#chat-type{
+    border: 3px solid rgb(58, 247, 89);
+    /* border-bottom: 5px solid green; */
+    border-radius: 25px;
+    font-size: 17px;
+    width:400px;
+}
+.chat-box{
+    /* background-color: red; */
+    height:90%;
+    width:100%;
+    overflow: auto;
+}
+.msg{
+    width: fit-content;
+    padding:10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(170, 176, 182);
+    color:white;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 3px 6px 0 rgba(0, 0, 0, 0.19);
+
+}
+.usermsg{
+    margin-left: auto;
+    background-color:rgb(253, 10, 23);
+    color:white
+}
+
+   </style>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   </head>
+   <body class="clinic_version">
+      <!-- LOADER -->
+      <div id="preloader">
+         <img class="preloader" src="{{url_for('static',filename='image/loaders/heart-loading2.gif')}}" alt="">
+      </div>
+      <!-- END LOADER -->
+      <header>
+         
+         <div class="header-bottom wow fadeIn">
+            <div class="container">
+               <nav class="main-menu">
+                  <div class="navbar-header">
+                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                  </div>
+				  
+                  <div id="navbar" class="navbar-collapse collapse">
+                     <ul class="nav navbar-nav">
+                        <li><a class="active" href="index.html">Home</a></li>
+                        <li><a data-scroll href="#about">About us</a></li>
+
+                        <li><a data-scroll href="#doctors">Consult a Doctor</a></li>
+                        <li><a data-scroll href="#price">Consultancy Status</a></li>
+						<li><a data-scroll href="#testimonials">Ask Doctor</a></li>
+                        <li><a data-scroll href="#getintouch">Profile</a></li>
+                        <li><a data-scroll href="{{url_for('logout')}}">Logout</a></li>
+                     </ul>
+                  </div>
+               </nav>
+
+            </div>
+         </div>
+      </header>
+      <div id="home" class="parallax first-section wow fadeIn" data-stellar-background-ratio="0.4" style="background-image:url('static/image/slider-bg.png');">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12 col-sm-12">
+                  <div class="text-contant">
+                     <h2>
+                        <span class="center"><span class="icon"><img src="{{url_for('static',filename='image/icon-logo.png')}}" alt="#" /></span></span>
+                        <a href="" class="typewrite" data-period="2000" data-type='[ "Welcome to Medico", "Your Virtual health Assistance", "" ]'>
+                        <span class="wrap"></span>
+                        </a>
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <!-- end row -->
+         </div>
+         <!-- end container -->
+      </div>
+      <!-- end section -->
+      <div id="time-table" class="time-table-section">
+         <div class="container">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+               <div class="row">
+                  <div class="service-time one" style="background:#2895f1;">
+                     <span class="info-icon"><i class="fa fa-ambulance" aria-hidden="true"></i></span>
+                     <h3>Medical Advisory</h3>
+                     <p>Best doctors to get consulted </p>
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+               <div class="row">
+                  <div class="service-time middle" style="background:#0071d1;">
+                     <span class="info-icon"><i class="fa fa-clock-o" aria-hidden="true"></i></span> 
+                     <h3>Virtual Care Taker</h3>
+                     <div class="time-table-section">
+                       
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+               <div class="row">
+                  <div class="service-time three" style="background:#0060b1;">
+                     <span class="info-icon"><i class="fa fa-hospital-o" aria-hidden="true"></i></span>
+                     <h3>Get medical helps</h3>
+                     <p>Use ask for need to get helps</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="about" class="section wow fadeIn">
+         <div class="container">
+            <div class="heading">
+               <span class="icon-logo"><img src="{{url_for('static',filename='image/icon-logo.png')}}" alt="#"></span>
+               <h2>Virtual Assistant</h2>
+            </div>
+            <!-- end title -->
+            <div class="row">
+               <div class="col-md-6">
+                  <div class="message-box">
+                     <h4>What We Do</h4>
+                     <h2>Health Care</h2>
+                     <p class="lead">Health care, health-care, or healthcare is the maintenance or improvement of health via the prevention, diagnosis, treatment, recovery, or cure of disease, illness, injury, and other physical and mental impairments in people. </p>
+                     <p> Health care is delivered by health professionals and allied health fields. Medicine, dentistry, pharmacy, midwifery, nursing, optometry, audiology, psychology, occupational therapy, physical therapy, athletic training and other health professions are all part of health care. It includes work done in providing primary care, secondary care, and tertiary care, as well as in public health.  </p>
+                     <a href="#services" data-scroll class="btn btn-light btn-radius btn-brd grd1 effect-1">Learn More</a>
+                  </div>
+                  <!-- end messagebox -->
+               </div>
+               <!-- end col -->
+               <div class="col-md-6">
+                  <div class="post-media wow fadeIn">
+                     <img src="{{url_for('static',filename='image/about_03.jpg')}}" alt="" class="img-responsive">
+                     <a href="http://www.youtube.com/watch?v=nrJtHemSPW4" data-rel="prettyPhoto[gal]" class="playbutton"><i class="flaticon-play-button"></i></a>
+                  </div>
+                  <!-- end media -->
+               </div>
+               <!-- end col -->
+            </div>
+            <!-- end row -->
+            <hr class="hr1">
+            <div class="row">
+               <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="service-widget">
+                     <div class="post-media wow fadeIn">
+                        <a href="{{url_for('static',filename='image/clinic_01.jpg')}}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="flaticon-unlink"></i></a>
+                        <img src="{{url_for('static',filename='image/clinic_01.jpg')}}" alt="" class="img-responsive">
+                     </div>
+                     <h3>Digital Control Center</h3>
+                  </div>
+                  <!-- end service -->
+               </div>
+               
+               <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="service-widget">
+                     <div class="post-media wow fadeIn">
+                        <a href="{{url_for('static',filename='image/clinic_01.jpg')}}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="flaticon-unlink"></i></a>
+                        <img src="{{url_for('static',filename='image/clinic_01.jpg')}}" alt="" class="img-responsive">
+                     </div>
+                     <h3>Specialist Physicians</h3>
+                  </div>
+                  <!-- end service -->
+               </div>
+               <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="service-widget">
+                     <div class="post-media wow fadeIn">
+                        <a href=" {{url_for('static',filename='image/clinic_01.jpg')}}" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="flaticon-unlink"></i></a>
+                        <img src="{{url_for('static',filename='image/clinic_01.jpg')}}" alt="" class="img-responsive">
+                     </div>
+                     <h3>Digital Control Center</h3>
+                  </div>
+                  <!-- end service -->
+               </div>
+            </div>
+            <!-- end row -->
+         </div>
+         <!-- end container -->
+      </div>
+      
+      <!-- end section -->
+	  
+	  <!-- doctor -->
+	  
+	  <div id="doctors" class="parallax section db" data-stellar-background-ratio="0.4" style="background:rgb(173, 104, 104);" data-scroll-id="doctors" tabindex="-1" >
+        <div class="container" style="overflow: visible;">
+		
+		<div class="heading">
+               <span class="icon-logo"><img src="{{url_for('static',filename='image/icon-logo.png')}}" alt="#"></span>
+               <h2>Consult doctors </h2>
+            </div>
+           {% for i in range(0, len,3) %}
+
+            <div class="row dev-list text-center">
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeIn;">
+                    <div class="widget clearfix">
+                        <img src={{url_for('static',filename='image/{0}.jpg'.format(doctor[i]['image']))}} style="height:400px;width:300px;" alt="" class="img-responsive img-rounded">
+                        
+                        <div class="widget-title">
+                            <h3>{{doctor[i]['name']}}</h3>
+                            <small>{{doctor[i]['dept']}}</small>
+                        </div>
+                        <!-- end title -->
+                        <p>Timings : {{doctor[i]['timing']}}</p>
+
+                       {% if doctor[i]['id'] in c %}
+                       <a href="" data-scroll class="disabled" >Consult request Made</a>
+                       {% else %}
+
+
+                       <a href="{{url_for('consult',a=patient['mail'],b=doctor[i]['id'])}}" data-scroll class="btn btn-light btn-radius btn-brd grd1 effect-1">Consult doctor</a>
+                       {% endif %}
+
+                    </div><!--widget -->
+                </div><!-- end col -->
+               {%if i+1 < len%}
+
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.4s" style="visibility: visible; animation-duration: 1s; animation-delay: 0.4s; animation-name: fadeIn;">
+                    <div class="widget clearfix">
+                       <img src={{url_for('static',filename='image/{0}.jpg'.format(doctor[i+1]['image']))}} style="height:400px;width:300px;" alt="" class="img-responsive img-rounded">
+
+                        
+                        <div class="widget-title">
+                            <h3>{{doctor[i+1]['name']}}</h3>
+                            <small>{{doctor[i+1]['dept']}}</small>
+                        </div>
+                        <!-- end title -->
+                        <p>Timings : {{doctor[i+1]['timing']}}</p>
+                      {% if doctor[i+1]['id'] in c %}
+                       <a href="" data-scroll class="disabled" >Consult Request made</a>
+                       {% else %}
+
+
+                       <a href="{{url_for('consult',a=patient['mail'],b=doctor[i+1]['id'])}}" data-scroll class="btn btn-light btn-radius btn-brd grd1 effect-1">Consult doctor</a>
+                       {% endif %}
+
+
+                    </div><!--widget -->
+                </div><!-- end col -->
+               {% endif %}
+                     {%if i+2 < len%}
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 wow fadeIn">
+                    <div class="widget clearfix">
+                       <img src={{url_for('static',filename='image/{0}.jpg'.format(doctor[i+2]['image']))}} style="height:400px;width:300px;" alt="" class="img-responsive img-rounded">
+
+                        
+                        <div class="widget-title">
+                            <h3>{{doctor[i+2]['name']}}</h3>
+                            <small>{{doctor[i+2]['dept']}}</small>
+                        </div>
+                        <!-- end title -->
+                        <p>Timings : {{doctor[i+2]['timing']}}</p>
+                       {% if doctor[i+2]['id'] in c %}
+                       <a href="" data-scroll class="disabled" >Consult Request made</a>
+                       {% else %}
+
+
+                       <a href="{{url_for('consult',a=patient['mail'],b=doctor[i+2]['id'])}}" data-scroll class="btn btn-light btn-radius btn-brd grd1 effect-1">Consult doctor</a>
+                       {% endif %}
+
+
+                    </div><!--widget -->
+                </div><!-- end col -->
+               {% endif %}
+
+            </div><!-- end row -->
+           {% endfor %}
+        </div><!-- end container -->
+    </div>
+	  
+	  <div id="price" class="section pr wow fadeIn" style="background-image:url('images/price-bg.png');">
+         <div class="container">
+            <div class="heading">
+               <span class="icon-logo"><img src="{{url_for('static',filename='image/icon-logo.png')}}" alt="#"></span>
+               <h2>Consultancy Status </h2>
+            </div>
+
+            <table>
+  <tr>
+    <th>Doctor Name</th>
+    <th>Department</th>
+    <th>Status</th>
+     <th>Timing</th>
+     <th> Meeting Link</th>
+  </tr>
+{% if status == 0 %}
+  <tr>
+    <td></td>
+    <td></td>
+    <td>No Consulting request made</td>
+     <td></td>
+     <td></td>
+  </tr>
+{% else %}
+               {% for i in range(0,len1) %}
+                <tr>
+    <td>{{status[i]['name']}}</td>
+    <td>{{status[i]['dept']}}</td>
+    <td>{{status[i]['status']}}</td>
+                   {% if status[i]['timing'] == None %}
+                            <td>-</td>
+                   {% else %}
+                            <td>{{status[i]['timing']}}</td>
+                   {% endif %}
+
+                   {% if status[i]['timing'] == None %}
+                            <td>-</td>
+                   {% else %}
+                            <td>{{status[i]['link']}}</td>
+                   {% endif %}
+  </tr>
+
+
+
+               {% endfor %}
+{% endif %}
+</table>
+
+         </div>
+      </div>
+	  
+	  <!-- end doctor section -->
+	  
+      <div id="testimonials" class="section wb wow fadeIn">
+         <div class="container" style="height: 700px;">
+           <center> <h1> Ask doctor</h1></center>
+            <!-- end title -->
+            <div class="row">
+               <div class="chat-container">
+        <div class="chat-box-container">
+            <div class="chat-box">
+                {% for i in range(0, len2) %}
+                <p class="msg usermsg">{{queries[i]['question']}}</p>
+
+                {% if queries[i]['answer']!= "Nil" %}
+                <p class="msg">{{queries[i]['answer']}}</p>
+                {% endif %}
+
+                {% endfor %}
+            </div>
+            <br><br><br><br><br><br>
+            <div class="sendbox">
+                <form action="{{url_for('askquery')}}" method="post">
+                <table>
+                    <tr>
+                        <td><input type="text" id="chat-type" name="usrquestion" placeholder="Ask a Query.."></td>
+                        <td><button id="send" type="submit">send</button></td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+        </div>
+    </div>
+               <!-- end col -->
+            </div>
+            <!-- end row -->
+         </div>
+         <!-- end container -->
+      </div>
+      <!-- end section -->
+      <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
+         <div class="container">
+            <div class="heading">
+               <span class="icon-logo"><img src="{{url_for('static',filename='image/icon-logo.png')}}" alt="#"></span>
+               <h2>Profile</h2>
+            </div>
+         </div>
+         <div class="contact-section" style="background-color:white;">
+
+                           <div class="container">
+    <h4>Inline Form</h4>
+    <br>
+  <form class="form-inline" action="{{url_for('update')}}" method="post">
+    <label for="text">Name</label>
+    <input type="text" class="form-control" id="email" value="{{patient['name']}}" name="name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <label for="age">Age</label>
+      
+
+    <input type="number" class="form-control" id="age" value="{{patient['age']}}" name="age">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <label for="gender">Gender</label>
+      <select name="gender" id="gender">
+  <option value="{{patient['gender']}}" selected>{{patient['gender']}}</option>
+  <option value="Male">Male</option>
+  <option value="Female">Female</option>
+
+</select>
+    <br><br><br><br>
+
+
+
+      <label for="email">Email</label>
+    <input type="email" class="form-control" id="mail" value="{{patient['mail']}}" name="mail" disabled>
+    <br><br><br><br>
+
+
+       <label for="email">BMI</label>
+    <input type="number" class="form-control" id="bmi" value="{{patient['BMI']}}" name="bmi">&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="location">Location</label>
+    <input type="text" class="form-control" id="location" value="{{patient['location']}}" name="location">
+<br><br>
+      <button data-scroll class="btn btn-light btn-radius btn-brd grd1 effect-1" onclick=" myFunction()" >Update</button>
+
+  </form>
+
+
+</div>
+   <div class="embeded-website">
+      <h1>You can Also Refer</h1>
+      <iframe src="https://www.collegechoice.net/faq/what-is-healthcare/" height='500px' width='450px'></iframe>
+      <iframe src="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1434713/" height='500px' width='450px'></iframe>
+   </div>
+
+
+            </div>
+      </div>
+      <footer id="footer" class="footer-area wow fadeIn">
+
+      </footer>
+      <div class="copyright-area wow fadeIn">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-8">
+                  <div class="footer-text">
+                     <p></p>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="social">
+                     <ul class="social-links">
+                        <li><a href=""><i class="fa fa-rss"></i></a></li>
+                        <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                        <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                        <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href=""><i class="fa fa-youtube"></i></a></li>
+                        <li><a href=""><i class="fa fa-pinterest"></i></a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end copyrights -->
+      <a href="#home" data-scroll class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
+      <!-- all js files -->
+      <script src="{{url_for('static',filename='js/all1.js')}}"></script>
+      <!-- all plugins -->
+      <script src="{{url_for('static',filename='js/custom1.js')}}"></script>
+      <script>
+function myFunction() {
+swal("Profile Updated");
+}
+</script>
+
+      <!-- map -->
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNUPWkb4Cjd7Wxo-T4uoUldFjoiUA1fJc&callback=myMap"></script>
+   </body>
+</html>
